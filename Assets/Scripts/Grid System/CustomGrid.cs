@@ -14,8 +14,7 @@ namespace Monster_Rancher.Grids
         private int cellSize = 1;
         [SerializeField] 
         private List< GridCell >  gridCellsComponents = new List < GridCell > ();
-        [SerializeField] 
-        private List < GameObject > gridCellObjects = new List < GameObject > ();
+
         [SerializeField] 
         private GameObject gridCellPrefab;
 
@@ -27,24 +26,21 @@ namespace Monster_Rancher.Grids
                 {
                     var spawnedCellObject = Instantiate ( gridCellPrefab, new Vector3 ( xIndex, yIndex ), Quaternion.identity, this.transform );
                     spawnedCellObject.name = $"Grid Cell ({xIndex}, {yIndex})";
-                    gridCellObjects.Add ( spawnedCellObject );
                     var gridCellComponent = spawnedCellObject.GetComponent < GridCell > ( );
                     gridCellsComponents.Add ( gridCellComponent );
-                    spawnedCellObject.GetComponent <GridCell> (  ).Initialise ( this, cellSize );
-
+                    spawnedCellObject.GetComponent <GridCell> (  ).Initialise ( this );
                 }
             }
         }
 
         public void DestroyGrid ( )
         {
-            foreach ( var gridCellObject in gridCellObjects )
+            foreach ( var gridCellsComponent in gridCellsComponents )
             {
-                DestroyImmediate ( gridCellObject );
+                DestroyImmediate ( gridCellsComponent.gameObject );
             }
             
             gridCellsComponents.Clear (  );
-            gridCellObjects.Clear (  );
         }
     }
 }

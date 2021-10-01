@@ -11,7 +11,7 @@ namespace Monster_Rancher.Grids
         
         //Public Fields
         [SerializeField]
-        public Sprite currentCurrentSprite => _currentSprite;
-        public SpriteRenderer spriteSpriteRenderer => _spriteRenderer;
+        public Sprite CurrentSprite => _currentSprite;
+        public SpriteRenderer SpriteRenderer => _spriteRenderer;
     }
 }

@@ -5,7 +5,8 @@ namespace Monster_Rancher.Grids
 {
     public class GridGenerator : MonoBehaviour
     {
-        [SerializeField] private CustomGrid targetCustomGrid;
+        [SerializeField] 
+        private CustomGrid targetCustomGrid;
 
         public void GenerateTargetGrid ( )
         {

@@ -14,10 +14,18 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Look",
+                    "name": "Mouse Pos",
                     "type": "Value",
                     "id": "00d10a9e-fa35-4bcf-9150-1a95754867ad",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Mouse Click",
+                    "type": "Button",
+                    "id": "fe07eab0-c752-435d-88cd-8123d83cb915",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -125,11 +133,22 @@
                 {
                     "name": "",
                     "id": "8c8e490b-c610-4785-884f-f04217b23ca4",
-                    "path": "<Pointer>/delta",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse;Touch",
-                    "action": "Look",
+                    "action": "Mouse Pos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c8fd2ac-6c3b-4e08-96e2-12958a9e3e15",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse;Touch",
+                    "action": "Mouse Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

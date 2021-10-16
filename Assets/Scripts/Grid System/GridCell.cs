@@ -1,7 +1,10 @@
 ﻿using System;
+using Player.Input;
 using TMPro;
+using UniRx;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Monster_Rancher.Grids
 {

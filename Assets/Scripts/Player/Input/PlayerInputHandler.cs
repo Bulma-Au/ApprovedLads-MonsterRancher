@@ -3,43 +3,63 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputHandler : MonoBehaviour
+namespace Player.Input
 {
-    private static PlayerInputHandler _instance;
-    public static PlayerInputHandler Instance => _instance;
+    public class PlayerInputHandler : MonoBehaviour
+    {
+        private static PlayerInputHandler _instance;
+        public static PlayerInputHandler Instance => _instance;
     
-    [SerializeField]
-    private PlayerInput playerInputComponent;
+        [SerializeField]
+        private PlayerInput playerInputComponent;
 
-    private Subject < InputAction.CallbackContext > onMoveInputDetected = new Subject < InputAction.CallbackContext > (  );
-    public IObservable < InputAction.CallbackContext > OnMoveInputDetected => onMoveInputDetected;
+        private Subject < InputAction.CallbackContext > onMoveInputDetected = new Subject < InputAction.CallbackContext > (  );
+        public IObservable < InputAction.CallbackContext > OnMoveInputDetected => onMoveInputDetected;
 
-    private void Start ( )
-    {
-        if ( playerInputComponent == null )
-            playerInputComponent = this.gameObject.GetComponent < PlayerInput > ( );
-        
-        InitialiseEventCallbacks (  );
-    }
+        private Subject < InputAction.CallbackContext > onMousePosInputDetected = new Subject < InputAction.CallbackContext > ( );
+        public IObservable < InputAction.CallbackContext > OnMousePosInputDetected => onMousePosInputDetected;
 
-    private void Awake ( )
-    {
-        _instance = this;
-    }
+        private Subject < InputAction.CallbackContext > onMouseClickInputDetected = new Subject < InputAction.CallbackContext > ( );
 
-    private void InitialiseEventCallbacks (  )
-    {
-        playerInputComponent.onActionTriggered += context =>
+        public IObservable < InputAction.CallbackContext > OnMouseClickInputDetected => onMouseClickInputDetected;
+
+        private void Start ( )
         {
-            var contextActionName = context.action.name;
-            switch ( contextActionName )
+            if ( playerInputComponent == null )
+                playerInputComponent = this.gameObject.GetComponent < PlayerInput > ( );
+        
+            InitialiseEventCallbacks (  );
+        }
+
+        private void Awake ( )
+        {
+            _instance = this;
+        }
+
+        private void InitialiseEventCallbacks (  )
+        {
+            playerInputComponent.onActionTriggered += context =>
             {
-                case "Move":
-                    onMoveInputDetected.OnNext ( context );
-                    break;
-                default:
-                    break;
-            }
-        };
+                var contextActionName = context.action.name;
+                switch ( contextActionName )
+                {
+                    case "Move":
+                        onMoveInputDetected.OnNext ( context );
+                        break;
+                
+                    case "Mouse Pos":
+                        onMousePosInputDetected.OnNext ( context );
+                        break;
+                    
+                    case "Mouse Click":
+                        onMouseClickInputDetected.OnNext ( context );
+                        break;
+                    
+                    default:
+                        break;
+                }
+            };
+        }
     }
 }
+

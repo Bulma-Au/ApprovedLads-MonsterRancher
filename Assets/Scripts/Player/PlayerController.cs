@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using NUnit.Framework;
+using Player.Input;
 using UniRx;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Debug = UnityEngine.Debug;
 
-namespace Player.Input
+namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
-        private float moveSpeed = 3f;
+        private float _moveSpeed = 3f;
         
         private PlayerInputHandler _playerInputHandler;
         private Vector2 _lastTargetVector2;
@@ -41,7 +35,7 @@ namespace Player.Input
         {
             while ( _lastTargetVector2 == inputDirection )
             {
-                gameObject.transform.Translate ( inputDirection * moveSpeed * Time.deltaTime );
+                gameObject.transform.Translate ( inputDirection * _moveSpeed * Time.deltaTime );
                 await UniTask.WaitForEndOfFrame ( );
             }
         }

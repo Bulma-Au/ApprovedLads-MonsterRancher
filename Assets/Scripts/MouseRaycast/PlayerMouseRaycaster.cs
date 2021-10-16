@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using MouseRaycast;
 using Player.Input;
 using UniRx;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Player
@@ -15,7 +15,11 @@ namespace Player
 
         private PlayerInputHandler _inputHandler;
 
-        private Vector2 _mousePos = new Vector2 ( 0,0 );
+        private ContactFilter2D _mouseOverFilter = new ContactFilter2D().NoFilter();
+        List<Collider2D> _mouseOverOverlapResults = new List<Collider2D>();
+
+        private ContactFilter2D _mouseClickFilter = new ContactFilter2D().NoFilter();
+        private List<Collider2D> _mouseClickOverlapResults = new List<Collider2D>();
 
         private void Start ( )
         {
@@ -46,41 +50,31 @@ namespace Player
 
         private void FireMousePosRaycast ( )
         {
-            var ray = _mainCamera.ScreenPointToRay ( Mouse.current.position.ReadValue (  ) );
-            var rayOrigin = (Vector2) ray.origin;
-            var rayDirection = (Vector2) ray.direction;
-            
-            var hits = Physics2D.RaycastAll ( rayOrigin, rayDirection, 10f );
-            if ( hits.Length == 0 ) 
+            if(Physics2D.OverlapPoint(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()), _mouseOverFilter, _mouseOverOverlapResults) == 0)
                 return;
-            
-            foreach ( var raycastHit in hits )
+
+            foreach (var targetCollider in _mouseOverOverlapResults)
             {
-                raycastHit.collider.TryGetComponent < MouseRaycastTarget > ( out var foundTargetComponent );
+                targetCollider.TryGetComponent<MouseRaycastTarget>(out var foundTargetComponent);
                 if(foundTargetComponent == null)
                     continue;
                 
-                foundTargetComponent.OnMouseOverReaction (  );
+                foundTargetComponent.OnMouseOverReaction();
             }
         }
 
         private void FireMouseClickRaycast ( )
         {
-            var ray = _mainCamera.ScreenPointToRay ( Mouse.current.position.ReadValue (  ) );
-            var rayOrigin = (Vector2) ray.origin;
-            var rayDirection = (Vector2) ray.direction;
-            
-            var hits = Physics2D.RaycastAll ( rayOrigin, rayDirection, 10f );
-            if ( hits.Length == 0 ) 
+            if (Physics2D.OverlapPoint(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()), _mouseClickFilter, _mouseClickOverlapResults) == 0)
                 return;
-            
-            foreach ( var raycastHit in hits )
+
+            foreach (var targetCollider in _mouseClickOverlapResults)
             {
-                raycastHit.collider.TryGetComponent < MouseRaycastTarget > ( out var foundTargetComponent );
+                targetCollider.TryGetComponent<MouseRaycastTarget>(out var foundTargetComponent);
                 if(foundTargetComponent == null)
                     continue;
                 
-                foundTargetComponent.OnMouseClickReaction (  );
+                foundTargetComponent.OnMouseClickReaction();
             }
         }
     }

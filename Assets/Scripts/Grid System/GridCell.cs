@@ -1,12 +1,6 @@
-﻿using System;
-using Player.Input;
-using TMPro;
-using UniRx;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 
-namespace Monster_Rancher.Grids
+namespace Monster_Rancher.GridSystem
 {
     public class GridCell : MonoBehaviour
     {

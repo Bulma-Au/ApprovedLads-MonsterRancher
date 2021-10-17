@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using MouseRaycast;
-using Player.Input;
+using Monster_Rancher.PlayerInput;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player
+namespace Monster_Rancher.MouseEventSystem
 {
-    public class PlayerMouseRaycaster: MonoBehaviour
+    public class MouseEventHandler: MonoBehaviour
     {
         [SerializeField]
         private Camera _mainCamera;
@@ -55,7 +54,7 @@ namespace Player
 
             foreach (var targetCollider in _mouseOverOverlapResults)
             {
-                targetCollider.TryGetComponent<MouseRaycastTarget>(out var foundTargetComponent);
+                targetCollider.TryGetComponent<MouseEventBase>(out var foundTargetComponent);
                 if(foundTargetComponent == null)
                     continue;
                 
@@ -70,7 +69,7 @@ namespace Player
 
             foreach (var targetCollider in _mouseClickOverlapResults)
             {
-                targetCollider.TryGetComponent<MouseRaycastTarget>(out var foundTargetComponent);
+                targetCollider.TryGetComponent<MouseEventBase>(out var foundTargetComponent);
                 if(foundTargetComponent == null)
                     continue;
                 

@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player.Input
+namespace Monster_Rancher.PlayerInput
 {
     public class PlayerInputHandler : MonoBehaviour
     {
@@ -11,7 +11,7 @@ namespace Player.Input
         public static PlayerInputHandler Instance => _instance;
     
         [SerializeField]
-        private PlayerInput playerInputComponent;
+        private UnityEngine.InputSystem.PlayerInput playerInputComponent;
 
         private Subject < InputAction.CallbackContext > onMoveInputDetected = new Subject < InputAction.CallbackContext > (  );
         public IObservable < InputAction.CallbackContext > OnMoveInputDetected => onMoveInputDetected;
@@ -26,7 +26,7 @@ namespace Player.Input
         private void Start ( )
         {
             if ( playerInputComponent == null )
-                playerInputComponent = this.gameObject.GetComponent < PlayerInput > ( );
+                playerInputComponent = this.gameObject.GetComponent < UnityEngine.InputSystem.PlayerInput > ( );
         
             InitialiseEventCallbacks (  );
         }

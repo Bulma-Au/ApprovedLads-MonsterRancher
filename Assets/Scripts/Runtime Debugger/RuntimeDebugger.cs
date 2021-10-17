@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Debugger
+namespace Monster_Rancher.RuntimeDebuggerSystem
 {
     /// <summary>
     /// Shelving this for now, it's not high priority.

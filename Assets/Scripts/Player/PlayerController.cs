@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Player.Input;
+using Monster_Rancher.PlayerInput;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player
+namespace Monster_Rancher.Player
 {
     public class PlayerController : MonoBehaviour
     {

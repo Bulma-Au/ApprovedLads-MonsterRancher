@@ -1,11 +1,9 @@
-﻿using System;
-using Player.Input;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-namespace Monster_Rancher.Grids
+namespace Monster_Rancher.GridSystem
 {
     public class GridCellDebugger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {

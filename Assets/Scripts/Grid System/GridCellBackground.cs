@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Monster_Rancher.Grids
+namespace Monster_Rancher.GridSystem
 {
     public class GridCellBackground : GridCellLayer
     {

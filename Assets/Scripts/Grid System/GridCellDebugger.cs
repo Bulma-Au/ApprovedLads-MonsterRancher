@@ -1,11 +1,12 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 namespace Monster_Rancher.GridSystem
 {
-    public class GridCellDebugger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+    public class GridCellDebugger : MonoBehaviour
     {
         [SerializeField] 
         private GameObject selectionSpriteGameObject;
@@ -36,23 +37,6 @@ namespace Monster_Rancher.GridSystem
         {
             selectionSpriteGameObject.SetActive ( false );
             textFieldGameObject.SetActive ( false );
-        }
-
-        public void OnPointerEnter ( PointerEventData eventData )
-        {
-            //Debug.Log ( $"Mouse entered: {gameObject.name}." );
-            EnableDebugInfo (  );
-        }
-
-        public void OnPointerExit ( PointerEventData eventData )
-        {
-            //Debug.Log ( $"Mouse exited: {gameObject.name}." );
-            DisableDebugInfo (  );
-        }
-
-        public void OnPointerDown ( PointerEventData eventData )
-        {
-            //Debug.Log ( $"Mouse clicked: {gameObject.name}" );
         }
     }
 }

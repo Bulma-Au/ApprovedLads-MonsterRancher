@@ -35,7 +35,7 @@ namespace Monster_Rancher.MouseEventSystem
             if ( receivedContext.started || receivedContext.canceled)
                 return;
             
-            FireMousePosRaycast (  );
+            FireMousePosOverlapPoint (  );
             
         }
 
@@ -44,10 +44,10 @@ namespace Monster_Rancher.MouseEventSystem
             if(receivedContext.started || receivedContext.canceled)
                 return;
             
-            FireMouseClickRaycast (  );
+            FireMouseClickOverlapPoint (  );
         }
 
-        private void FireMousePosRaycast ( )
+        private void FireMousePosOverlapPoint ( )
         {
             if(Physics2D.OverlapPoint(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()), _mouseOverFilter, _mouseOverOverlapResults) == 0)
                 return;
@@ -62,7 +62,7 @@ namespace Monster_Rancher.MouseEventSystem
             }
         }
 
-        private void FireMouseClickRaycast ( )
+        private void FireMouseClickOverlapPoint ( )
         {
             if (Physics2D.OverlapPoint(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()), _mouseClickFilter, _mouseClickOverlapResults) == 0)
                 return;

@@ -2,7 +2,7 @@
 
 namespace Monster_Rancher.MouseEventSystem
 {
-    public abstract class MouseEventBase : MonoBehaviour
+    public abstract class MouseEventTargetBase : MonoBehaviour
     {
         public abstract void OnMouseOverReaction();
         public abstract void OnMouseClickReaction();

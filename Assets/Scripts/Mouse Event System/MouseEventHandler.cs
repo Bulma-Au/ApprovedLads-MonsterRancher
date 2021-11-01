@@ -7,6 +7,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using Utility_Classes;
 
 namespace Monster_Rancher.MouseEventSystem
 {
@@ -73,7 +74,7 @@ namespace Monster_Rancher.MouseEventSystem
                 if ( previousMouseEventTarget == foundTargetComponent )
                     continue;
 
-                FireMouseOverEvent( _currentMouseEventTarget );
+                FireMouseOverEvent( _currentMouseEventTarget ).WrapErrors (  );
             }
         }
 
@@ -99,8 +100,7 @@ namespace Monster_Rancher.MouseEventSystem
             while ( _currentMouseEventTarget == targetMouseEventTarget )
             {
                 targetMouseEventTarget.OnMouseOverReaction (  );
-                var deltaTimeInMilliseconds = (int)(Time.deltaTime * 1000);
-                await Task.Delay ( deltaTimeInMilliseconds );
+                await UniTask.NextFrame ( );
             }
             
             targetMouseEventTarget.OnMouseExitReaction (  );

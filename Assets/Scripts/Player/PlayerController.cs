@@ -4,6 +4,7 @@ using Monster_Rancher.PlayerInput;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utility_Classes;
 
 namespace Monster_Rancher.Player
 {
@@ -28,7 +29,7 @@ namespace Monster_Rancher.Player
             
             var contextValue = receivedContext.ReadValue<Vector2> (  );
             _lastTargetVector2 = contextValue;
-            MoveToTask( contextValue );
+            MoveToTask( contextValue ).WrapErrors (  );
         }
 
         private async Task MoveToTask ( Vector2 inputDirection)

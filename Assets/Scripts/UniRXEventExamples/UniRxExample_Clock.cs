@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Monster_Rancher.UniRxEventExamples
 {
-    public class Clock : MonoBehaviour
+    public class UniRxExample_Clock : MonoBehaviour
     {
         [SerializeField]
         private float _timer = 0f;

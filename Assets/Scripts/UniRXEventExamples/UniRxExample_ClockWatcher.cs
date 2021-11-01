@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace Monster_Rancher.UniRxEventExamples
 {
-    public class ClockWatcher : MonoBehaviour
+    public class UniRxExample_ClockWatcher : MonoBehaviour
     {
         [SerializeField]
-        private Clock _clockToWatch;
+        private UniRxExample_Clock uniRxExampleClockToWatch;
 
         private void Start ( )
         {
-            _clockToWatch.OnIntervalHit.Subscribe ( unitPassed => ClockHitInterval (  ) ).AddTo ( gameObject );
+            uniRxExampleClockToWatch.OnIntervalHit.Subscribe ( unitPassed => ClockHitInterval (  ) ).AddTo ( gameObject );
         }
 
         private void ClockHitInterval (  )

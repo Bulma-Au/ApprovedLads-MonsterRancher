@@ -1,26 +1,29 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 using Utility_Classes;
 
-namespace Time_System
+namespace Monster_Rancher.DateTimeSystem
 {
-    public class MainClock : MonoBehaviour
+    public class TimeHandler : MonoBehaviour
     {
-        public static MainClock Instance;
+        public static TimeHandler Instance;
         
         private float _currentSecond;
         private int _currentMinute;
         private int _currentHour;
-        private int _currentDay;
-        private int _currentMonth;
-        private int _currentYear;
-        private DateTime _currentDateTime;
 
         private float _timescaleMultiplier = 75;
         private int hourToStartDay = 10;
         private int hoursInDayCycle = 18;
+
+        public IObservable < Unit > OnMinuteElapsed => _onMinuteElapsed;
+        private Subject < Unit > _onMinuteElapsed = new Subject < Unit > ( );
+
+        public IObservable < Unit > OnHourElapsed => _onHourElapsed;
+        private Subject < Unit > _onHourElapsed = new Subject < Unit > ( );
 
         private bool _isIncrementing = false;
 
@@ -61,15 +64,16 @@ namespace Time_System
                 {
                     _currentSecond = TimeComponentOverflowValue ( TimeComponent.Second, _currentSecond );
                     _currentMinute++;
+                    _onMinuteElapsed.OnNext ( Unit.Default );
                 }
 
                 if( TimeComponentOverflowCheck ( TimeComponent.Hour, _currentMinute ) )
                 {
                     _currentMinute = TimeComponentOverflowValue ( TimeComponent.Minute, _currentMinute );
                     _currentHour++;
+                    _onHourElapsed.OnNext ( Unit.Default );
                 }
-
-
+                
                 await UniTask.WaitForEndOfFrame( );
             }
         }
@@ -117,7 +121,5 @@ namespace Time_System
         }
 
         public enum TimeComponent { Second, Minute, Hour };
-
-        public enum DateComponent { Day, Month, Year };
     }
 }

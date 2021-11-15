@@ -10,20 +10,28 @@ namespace Monster_Rancher.DateTimeSystem
     public class TimeHandler : MonoBehaviour
     {
         public static TimeHandler Instance;
-        
+
+        public float CurrentSecond => _currentSecond;
         private float _currentSecond;
+        public int CurrentMinute => _currentMinute;
         private int _currentMinute;
+        public int CurrentHour => _currentHour;
         private int _currentHour;
 
+        private int _currentElapsedHours = 0;
+
         private float _timescaleMultiplier = 75;
-        private int hourToStartDay = 10;
-        private int hoursInDayCycle = 18;
+        private int _hourToStartDay = 10;
+        private int _hoursInDayCycle = 18;
 
-        public IObservable < Unit > OnMinuteElapsed => _onMinuteElapsed;
-        private Subject < Unit > _onMinuteElapsed = new Subject < Unit > ( );
+        public IObservable < int > OnMinuteElapsed => _onMinuteElapsed;
+        private Subject < int > _onMinuteElapsed = new Subject < int > ( );
 
-        public IObservable < Unit > OnHourElapsed => _onHourElapsed;
-        private Subject < Unit > _onHourElapsed = new Subject < Unit > ( );
+        public IObservable < int > OnHourElapsed => _onHourElapsed;
+        private Subject < int > _onHourElapsed = new Subject < int > ( );
+
+        public IObservable < Unit > OnDayElapsed => _onDayElapsed;
+        private Subject < Unit > _onDayElapsed = new Subject < Unit > ( );
 
         private bool _isIncrementing = false;
 
@@ -31,26 +39,37 @@ namespace Monster_Rancher.DateTimeSystem
         {
             Instance = this;
             
-            SetClock ( 10,0,0 );
-            BeginClock (  );
+            SetTime ( 0,0, _hourToStartDay );
+            StartTime (  );
         }
 
-        private void BeginClock ( )
+        public void StartNewDay ( )
         {
             _isIncrementing = true;
             IncrementClock (  ).WrapErrors (  );
         }
 
-        private void PauseClock ( )
+        private void StartTime ( )
+        {
+            _isIncrementing = true;
+            IncrementClock (  ).WrapErrors (  );
+        }
+
+        private void PauseTime ( )
         {
             _isIncrementing = false;
         }
 
-        private void SetClock ( int targetHour, int targetMinute, int targetSecond )
+        private void SetTime ( int targetSecond, int targetMinute, int targetHour)
         {
             _currentSecond = targetSecond;
             _currentMinute = targetMinute;
             _currentHour = targetHour;
+        }
+
+        private void ResetTime ( )
+        {
+            SetTime ( 0, 0, _hourToStartDay );
         }
 
         private async Task IncrementClock ( )
@@ -64,18 +83,29 @@ namespace Monster_Rancher.DateTimeSystem
                 {
                     _currentSecond = TimeComponentOverflowValue ( TimeComponent.Second, _currentSecond );
                     _currentMinute++;
-                    _onMinuteElapsed.OnNext ( Unit.Default );
+                    _onMinuteElapsed.OnNext ( _currentMinute );
                 }
 
                 if( TimeComponentOverflowCheck ( TimeComponent.Hour, _currentMinute ) )
                 {
                     _currentMinute = TimeComponentOverflowValue ( TimeComponent.Minute, _currentMinute );
                     _currentHour++;
-                    _onHourElapsed.OnNext ( Unit.Default );
+                    _currentElapsedHours++;
+                    _onHourElapsed.OnNext ( _currentHour );
+                    if( _currentElapsedHours >= _hoursInDayCycle )
+                        await EndOfDayCleanup ( );
                 }
                 
                 await UniTask.WaitForEndOfFrame( );
             }
+        }
+
+        private Task EndOfDayCleanup ( )
+        {
+            PauseTime (  );
+            ResetTime (  );
+            _onDayElapsed.OnNext ( Unit.Default );
+            return Task.CompletedTask;
         }
 
         private bool TimeComponentOverflowCheck (TimeComponent componentToCheck, int timeframeElapsed )
